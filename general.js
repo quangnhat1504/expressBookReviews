@@ -6,8 +6,17 @@ const BASE_URL = 'http://localhost:5000';
 async function getAllBooks() {
     try {
         const response = await axios.get(BASE_URL + '/');
-        return response.data;
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            console.error('Unexpected status code:', response.status);
+            return null;
+        }
     } catch (error) {
+        if (error.response && error.response.status === 404) {
+            console.error('Books not found');
+            return null;
+        }
         console.error('Error fetching books:', error.message);
         return null;
     }
@@ -17,8 +26,17 @@ async function getAllBooks() {
 async function getBookByISBN(isbn) {
     try {
         const response = await axios.get(BASE_URL + '/isbn/' + isbn);
-        return response.data;
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            console.error('Unexpected status code:', response.status);
+            return null;
+        }
     } catch (error) {
+        if (error.response && error.response.status === 404) {
+            console.error('Book not found for ISBN:', isbn);
+            return null;
+        }
         console.error('Error fetching book by ISBN:', error.message);
         return null;
     }
@@ -28,8 +46,17 @@ async function getBookByISBN(isbn) {
 async function getBooksByAuthor(author) {
     try {
         const response = await axios.get(BASE_URL + '/author/' + encodeURIComponent(author));
-        return response.data;
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            console.error('Unexpected status code:', response.status);
+            return null;
+        }
     } catch (error) {
+        if (error.response && error.response.status === 404) {
+            console.error('No books found for author:', author);
+            return null;
+        }
         console.error('Error fetching books by author:', error.message);
         return null;
     }
@@ -39,8 +66,17 @@ async function getBooksByAuthor(author) {
 async function getBookByTitle(title) {
     try {
         const response = await axios.get(BASE_URL + '/title/' + encodeURIComponent(title));
-        return response.data;
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            console.error('Unexpected status code:', response.status);
+            return null;
+        }
     } catch (error) {
+        if (error.response && error.response.status === 404) {
+            console.error('Book not found for title:', title);
+            return null;
+        }
         console.error('Error fetching book by title:', error.message);
         return null;
     }
