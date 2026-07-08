@@ -9,16 +9,13 @@ async function getAllBooks() {
         if (response.status === 200) {
             return response.data;
         } else {
-            console.error('Unexpected status code:', response.status);
-            return null;
+            throw new Error('Unexpected status code: ' + response.status);
         }
     } catch (error) {
         if (error.response && error.response.status === 404) {
-            console.error('Books not found');
-            return null;
+            throw new Error('Books not found');
         }
-        console.error('Error fetching books:', error.message);
-        return null;
+        throw new Error('Error fetching books: ' + error.message);
     }
 }
 
@@ -29,16 +26,13 @@ async function getBookByISBN(isbn) {
         if (response.status === 200) {
             return response.data;
         } else {
-            console.error('Unexpected status code:', response.status);
-            return null;
+            throw new Error('Unexpected status code: ' + response.status);
         }
     } catch (error) {
         if (error.response && error.response.status === 404) {
-            console.error('Book not found for ISBN:', isbn);
-            return null;
+            throw new Error('Book not found for ISBN: ' + isbn);
         }
-        console.error('Error fetching book by ISBN:', error.message);
-        return null;
+        throw new Error('Error fetching book by ISBN: ' + error.message);
     }
 }
 
@@ -49,16 +43,13 @@ async function getBooksByAuthor(author) {
         if (response.status === 200) {
             return response.data;
         } else {
-            console.error('Unexpected status code:', response.status);
-            return null;
+            throw new Error('Unexpected status code: ' + response.status);
         }
     } catch (error) {
         if (error.response && error.response.status === 404) {
-            console.error('No books found for author:', author);
-            return null;
+            throw new Error('No books found for author: ' + author);
         }
-        console.error('Error fetching books by author:', error.message);
-        return null;
+        throw new Error('Error fetching books by author: ' + error.message);
     }
 }
 
@@ -69,16 +60,13 @@ async function getBookByTitle(title) {
         if (response.status === 200) {
             return response.data;
         } else {
-            console.error('Unexpected status code:', response.status);
-            return null;
+            throw new Error('Unexpected status code: ' + response.status);
         }
     } catch (error) {
         if (error.response && error.response.status === 404) {
-            console.error('Book not found for title:', title);
-            return null;
+            throw new Error('Book not found for title: ' + title);
         }
-        console.error('Error fetching book by title:', error.message);
-        return null;
+        throw new Error('Error fetching book by title: ' + error.message);
     }
 }
 
@@ -100,3 +88,5 @@ async function getBookByTitle(title) {
     const bookByTitle = await getBookByTitle('Things Fall Apart');
     console.log(JSON.stringify(bookByTitle, null, 2));
 })();
+
+module.exports = { getAllBooks, getBookByISBN, getBooksByAuthor, getBookByTitle };
